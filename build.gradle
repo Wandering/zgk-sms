@@ -1,0 +1,84 @@
+buildscript{
+    repositories { maven { url 'http://repo.thinkjoy.cn/content/groups/public/' } }
+
+    dependencies{
+        classpath 'cn.thinkjoy.gradle.plugins:gradle-gitflow-plugin:1.0.1+'
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.4'
+        classpath 'org.hibernate.build.gradle:gradle-maven-publish-auth:2.0.1+'
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven-publish'
+    apply plugin: 'maven-publish-auth'
+    apply plugin: 'application'
+
+    repositories {
+        mavenCentral()
+        maven { url 'http://repo.thinkjoy.cn/content/groups/public/' }
+        maven { url 'https://repo.eclipse.org/content/repositories/paho-releases/'}
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots'}
+        mavenLocal()
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) { from components.java }
+        }
+
+        repositories {
+            maven {
+                name = 'thinkjoy'
+                url "http://repo.thinkjoy.cn/content/repositories/${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'}"
+            }
+        }
+    }
+
+    configurations {
+        provided
+        compile.extendsFrom provided
+
+        all*.exclude group:'org.springframework',module:'spring'
+        all*.exclude group:'asm',module: 'asm'
+        all*.exclude group:'cn.thinkjoy.common',module: 'thinkjoy-mu-common'
+        all*.exclude group:'org.slf4j', module: 'slf4j-log4j12'
+    }
+
+    sourceCompatibility = 1.7
+    version = '0.0.1-SNAPSHOT'
+
+    group 'cn.thinkjoy.sms'
+}
+
+ext {
+    springVersion='4.1.6.RELEASE'
+    druidVersion='0.2.26'
+    mysqlVersion='5.1.30'
+    slf4jVersion='1.7.5'
+    dubboVersion='2.4.9'
+    thinkjoyCloudstackVersion = "0.0.21-SNAPSHOT"
+    thinkjoyCommonVersion = "0.1.36-SNAPSHOT"
+    httpclientVersion='4.3.4'
+}
+
+subprojects {
+    dependencies {
+        compile (
+                "org.apache.commons:commons-lang3:3.1"
+        )
+
+        testCompile (
+                "junit:junit:4.11"
+        )
+
+        compile "org.springframework:spring-context:${springVersion}"
+        compile "org.springframework:spring-core:${springVersion}"
+        compile "org.springframework:spring-beans:${springVersion}"
+        compile "org.springframework:spring-tx:${springVersion}"
+        compile "org.springframework:spring-jdbc:${springVersion}"
+
+        compile 'com.google.guava:guava:18.0'
+    }
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.thinkjoy.sms.dao.SMSDao">
+
+    <!-- 保存短信信息 -->
+    <insert id="saveCheckCode" parameterType="SMSStatus" useGeneratedKeys="true" keyColumn="sms_id" keyProperty="id">
+        INSERT INTO sms_checkcode (
+            sms_bizTarget,
+            sms_checkCode,
+            sms_phone,
+            sms_sendResult,
+            sms_ResultCode
+        )values (
+            #{bizTarget},
+            #{sendContent},
+            #{toSendPhone},
+            #{sendResult},
+            #{resultCode}
+        )
+    </insert>
+
+    <!-- 保存发送状态 -->
+    <insert id="saveSMSStatus" parameterType="SMSStatus">
+        INSERT INTO sms_send_status (
+            sms_id,
+            sms_type,
+            send_channel,
+            callSid
+        ) VALUES (
+            #{id},
+            #{smsType},
+            #{sendChannel},
+            #{callSid}
+        )
+    </insert>
+
+    <!-- 获取短信发送渠道信息集合 -->
+    <select id="getSendChannels" resultType="SMSSend">
+        SELECT
+            bizTarget,
+            sendChannel
+        FROM
+            sms_send_channel
+    </select>
+
+    <!-- 记录渠道变更信息 -->
+    <insert id="saveChannelChange" parameterType="string">
+        INSERT INTO sms_channel_change (
+            source_channel,
+            target_channel
+        ) VALUES (
+            #{source},
+            #{target}
+        )
+    </insert>
+
+    <!-- 获取应用短信渠道关系 -->
+    <select id="getAPPSMSChannel" parameterType="string" resultType="APPSMSChannel">
+        SELECT
+            *
+        FROM
+            app_sms_channel
+        WHERE
+            app = #{app}
+    </select>
+</mapper>

@@ -1,0 +1,57 @@
+apply plugin:"java"
+apply plugin:"application"
+
+task copyJars(type: Copy) {
+    from configurations.runtime
+    into 'build/libs/lib'
+}
+
+
+mainClassName = 'SMSStarter'
+
+applicationDefaultJvmArgs = ['-server',
+                             '-Xmx1024m',
+                             '-Xms256m',
+                             '-Duser.timezone=GMT+8',
+                             '-Xloggc:./logs/gc.log']
+                             
+dependencies {
+    compile project(':sms-domain')
+    compile project(':sms-api')
+
+    compile "org.apache.httpcomponents:httpclient:${httpclientVersion}"
+    compile "org.apache.httpcomponents:fluent-hc:${httpclientVersion}"
+
+    compile "com.alibaba:druid:${druidVersion}"
+
+    compile "mysql:mysql-connector-java:${mysqlVersion}"
+
+    compile 'com.alibaba:fastjson:1.1.41'
+
+    compile "log4j:log4j:1.2.17"
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+    compile "org.slf4j:log4j-over-slf4j:${slf4jVersion}"
+
+    compile "org.mybatis:mybatis-spring:1.2.2"
+    compile "org.mybatis:mybatis:3.2.7"
+
+    compile ("com.alibaba:dubbo:${dubboVersion}") {
+        exclude group:'org.springframework'
+    }
+
+    compile ("org.apache.zookeeper:zookeeper:3.4.6") {
+        exclude group:'junit'
+        exclude group:'io.netty'
+    }
+
+    compile ("com.github.sgroschupf:zkclient:0.1") {
+        exclude group:'junit'
+        exclude group:'org.apache.zookeeper'
+    }
+
+    compile ('commons-codec:commons-codec:1.10')
+
+    compile "com.cloopen:ccp:2.6.3"
+
+    compile "cn.thinkjoy.cloudstack:cs-spring-zkconfig:${thinkjoyCloudstackVersion}"
+}
