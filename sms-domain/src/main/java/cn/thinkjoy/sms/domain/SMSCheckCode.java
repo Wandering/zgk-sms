@@ -7,28 +7,35 @@ import java.io.Serializable;
  */
 public class SMSCheckCode implements Serializable {
     private static final long serialVersionUID = 7333932514146799165L;
-    /*
-    电话
+    /**
+     * 电话
      */
     private String phone;
 
-    /*
-    验证码
+    /**
+     * 验证码
      */
     private String checkCode;
 
-    /*
-    渠道业务标识
+    /**
+     * 渠道业务标识
      */
     private String bizTarget;
+
+    /**
+     * 有效时间
+     */
+    private String effectiveTime;
+
 
     public SMSCheckCode() {
     }
 
-    public SMSCheckCode(String phone, String checkCode, String bizTarget) {
+    public SMSCheckCode(String phone, String checkCode, String bizTarget, String effectiveTime) {
         this.phone = phone;
         this.checkCode = checkCode;
         this.bizTarget = bizTarget;
+        this.effectiveTime = effectiveTime;
     }
 
     public String getPhone() {
@@ -47,6 +54,14 @@ public class SMSCheckCode implements Serializable {
         this.checkCode = checkCode;
     }
 
+    public String getEffectiveTime() {
+        return effectiveTime;
+    }
+
+    public void setEffectiveTime(String effectiveTime) {
+        this.effectiveTime = effectiveTime;
+    }
+
     public String getBizTarget() {
         return bizTarget;
     }
@@ -60,6 +75,7 @@ public class SMSCheckCode implements Serializable {
         return "SMSCheckCode{" +
                 "phone='" + phone + '\'' +
                 ", checkCode='" + checkCode + '\'' +
+                ", effectiveTime='" + effectiveTime + '\'' +
                 ", bizTarget='" + bizTarget + '\'' +
                 '}';
     }

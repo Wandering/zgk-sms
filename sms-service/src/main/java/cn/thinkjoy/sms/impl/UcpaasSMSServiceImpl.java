@@ -326,7 +326,7 @@ public class UcpaasSMSServiceImpl implements SMSService {
 
     public static void main(String[] args) {
 //        new UcpaasSMSServiceImpl().sendSMS(new SMSCheckCode("13363922086", "2343", "uc"), false);
-        new UcpaasSMSServiceImpl().sendVoiceSMS(new SMSCheckCode("13363922086", "2343", "uc"), false);
+        new UcpaasSMSServiceImpl().sendVoiceSMS(new SMSCheckCode("13363922086", "2343", "uc",null), false);
     }
 
 //    @Override

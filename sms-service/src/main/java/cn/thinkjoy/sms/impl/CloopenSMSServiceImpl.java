@@ -40,7 +40,7 @@ public class CloopenSMSServiceImpl implements SMSService, InitializingBean {
     public boolean sendSMS(SMSCheckCode smsCheckCode, boolean isChange) {
 
         HashMap<String, Object> result = restAPI.sendTemplateSMS(
-            smsCheckCode.getPhone(), "1", new String[]{smsCheckCode.getCheckCode(),"3"});
+            smsCheckCode.getPhone(), "86254", new String[]{smsCheckCode.getCheckCode()});
         String statusCode = result.get("statusCode").toString();
 
         final SMSStatus status = new SMSStatus(
@@ -162,7 +162,7 @@ public class CloopenSMSServiceImpl implements SMSService, InitializingBean {
     }
 
     public static void main(String[] args) {
-        new CloopenSMSServiceImpl().sendSMS(new SMSCheckCode("18629242959", "2453", "zgk"), false);
+        new CloopenSMSServiceImpl().sendSMS(new SMSCheckCode("18629242959", "2453", "zgk",null), false);
     }
 
     public enum ErrorCode {
