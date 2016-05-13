@@ -7,7 +7,7 @@ task copyJars(type: Copy) {
 }
 
 
-mainClassName = 'SMSStarter'
+mainClassName = 'cn.thinkjoy.sms.SMSStarter'
 
 applicationDefaultJvmArgs = ['-server',
                              '-Xmx1024m',
