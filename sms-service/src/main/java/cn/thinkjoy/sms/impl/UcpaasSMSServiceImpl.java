@@ -39,10 +39,10 @@ public class UcpaasSMSServiceImpl implements SMSService {
     @Autowired
     private TransactionTemplate transactionTemplate;
 
-    private static String accountSid = "b2ad2272f76838870c1d206b6c0eb291";
-    private static String token = "b387fb041576250b5fcf08efc5e7a978";
-    private static String appId = "3e9e01ad8ecc4272809ea3c09616e855";
-    private static String templateId="1874";
+    private static final String accountSid = "220c952ee4e96f405fd0629e11e9fdc4";
+    private static final String token = "13f74832478149d28df14d8d3df9afeb";
+    private static final String appId = "79613f16972e4a01ab3af13ca2b721d9";
+    private static final String templateId="25682";
 
     private EncryptUtil encryptUtil = new EncryptUtil();
 
@@ -101,8 +101,6 @@ public class UcpaasSMSServiceImpl implements SMSService {
                     getErrorInfo(respCode),
                     respCode,
                     smsKey);
-//            System.err.println(status.toString());
-//            return false;
 
             return transactionTemplate.execute(new TransactionCallback<Boolean>() {
                 @Override
@@ -325,8 +323,7 @@ public class UcpaasSMSServiceImpl implements SMSService {
     }
 
     public static void main(String[] args) {
-//        new UcpaasSMSServiceImpl().sendSMS(new SMSCheckCode("13363922086", "2343", "uc"), false);
-        new UcpaasSMSServiceImpl().sendVoiceSMS(new SMSCheckCode("13363922086", "2343", "uc",null), false);
+        new UcpaasSMSServiceImpl().sendSMS(new SMSCheckCode("18629242959", "1111", "zgk",null), false);
     }
 
 //    @Override

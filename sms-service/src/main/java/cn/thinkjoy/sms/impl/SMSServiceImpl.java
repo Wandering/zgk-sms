@@ -60,19 +60,21 @@ public class SMSServiceImpl implements SMSService, InitializingBean, DisposableB
         String smsKey = getChannel(smsCheckCode.getBizTarget());
         switch (smsKey) {
             case CloopenSMSServiceImpl.smsKey:
+
                 if (!isChange) {
                     return cloopenSMSService.sendSMS(smsCheckCode, isChange);
-                } else {
-                    smsDao.saveChannelChange(CloopenSMSServiceImpl.smsKey, UcpaasSMSServiceImpl.smsKey);
-                    return ucpaasSMSService.sendSMS(smsCheckCode, isChange);
                 }
+                smsDao.saveChannelChange(CloopenSMSServiceImpl.smsKey, UcpaasSMSServiceImpl.smsKey);
+                return ucpaasSMSService.sendSMS(smsCheckCode, isChange);
+
             case UcpaasSMSServiceImpl.smsKey:
+
                 if (!isChange) {
                     return ucpaasSMSService.sendSMS(smsCheckCode, isChange);
-                } else {
-                    smsDao.saveChannelChange(UcpaasSMSServiceImpl.smsKey, CloopenSMSServiceImpl.smsKey);
-                    return cloopenSMSService.sendSMS(smsCheckCode, isChange);
                 }
+                smsDao.saveChannelChange(UcpaasSMSServiceImpl.smsKey, CloopenSMSServiceImpl.smsKey);
+                return cloopenSMSService.sendSMS(smsCheckCode, isChange);
+
             default:
                 return cloopenSMSService.sendSMS(smsCheckCode, isChange);
         }
@@ -93,19 +95,21 @@ public class SMSServiceImpl implements SMSService, InitializingBean, DisposableB
 
         switch (getChannel(smsCheckCode.getBizTarget())) {
             case CloopenSMSServiceImpl.smsKey:
+
                 if (!isChange) {
                     return cloopenSMSService.sendVoiceSMS(smsCheckCode, isChange);
-                } else {
-                    smsDao.saveChannelChange(CloopenSMSServiceImpl.smsKey, UcpaasSMSServiceImpl.smsKey);
-                    return ucpaasSMSService.sendVoiceSMS(smsCheckCode, isChange);
                 }
+                smsDao.saveChannelChange(CloopenSMSServiceImpl.smsKey, UcpaasSMSServiceImpl.smsKey);
+                return ucpaasSMSService.sendVoiceSMS(smsCheckCode, isChange);
+
             case UcpaasSMSServiceImpl.smsKey:
+
                 if (!isChange) {
                     return ucpaasSMSService.sendVoiceSMS(smsCheckCode, isChange);
-                } else {
-                    smsDao.saveChannelChange(UcpaasSMSServiceImpl.smsKey, CloopenSMSServiceImpl.smsKey);
-                    return cloopenSMSService.sendVoiceSMS(smsCheckCode, isChange);
                 }
+                smsDao.saveChannelChange(UcpaasSMSServiceImpl.smsKey, CloopenSMSServiceImpl.smsKey);
+                return cloopenSMSService.sendVoiceSMS(smsCheckCode, isChange);
+
             default:
                 return cloopenSMSService.sendVoiceSMS(smsCheckCode, isChange);
         }
