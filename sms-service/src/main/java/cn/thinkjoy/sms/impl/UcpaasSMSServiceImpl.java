@@ -107,6 +107,9 @@ public class UcpaasSMSServiceImpl implements SMSService {
                 public Boolean doInTransaction(TransactionStatus transactionStatus) {
                     try {
                         smsDao.saveCheckCode(status);
+                        if(!status.getResultCode().equals("000000")){
+                            return false;
+                        }
                         return smsDao.saveSMSStatus(status);
                     } catch (Exception e) {
                         transactionStatus.setRollbackOnly();
