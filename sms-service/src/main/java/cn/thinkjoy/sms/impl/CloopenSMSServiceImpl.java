@@ -29,7 +29,7 @@ public class CloopenSMSServiceImpl implements SMSService, InitializingBean {
     private CCPRestSDK restAPI;
 
     //容联短信key
-    public final String smsKey = "cloopen";
+    public static final String smsKey = "cloopen";
 
     @Autowired
     private TransactionTemplate transactionTemplate;
