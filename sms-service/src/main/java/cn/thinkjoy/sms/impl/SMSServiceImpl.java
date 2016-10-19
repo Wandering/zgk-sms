@@ -124,7 +124,7 @@ public class SMSServiceImpl implements SMSService, InitializingBean, DisposableB
      */
     @Override
     public boolean sendVipCard(SMSSendVipCard smsSendVipCard) {
-        return false;
+        return cloopenSMSService.sendVipCard(smsSendVipCard);
     }
 
     private String getChannel(String target) {
