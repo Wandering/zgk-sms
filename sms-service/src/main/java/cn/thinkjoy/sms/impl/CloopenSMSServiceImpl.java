@@ -3,6 +3,7 @@ package cn.thinkjoy.sms.impl;
 import cn.thinkjoy.sms.api.SMSService;
 import cn.thinkjoy.sms.dao.SMSDao;
 import cn.thinkjoy.sms.domain.SMSCheckCode;
+import cn.thinkjoy.sms.domain.SMSSendVipCard;
 import cn.thinkjoy.sms.domain.SMSStatus;
 import com.cloopen.rest.sdk.CCPRestSDK;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class CloopenSMSServiceImpl implements SMSService, InitializingBean {
     private CCPRestSDK restAPI;
 
     //容联短信key
-    public final static String smsKey = "cloopen";
+    public final String smsKey = "cloopen";
 
     @Autowired
     private TransactionTemplate transactionTemplate;
@@ -44,12 +45,12 @@ public class CloopenSMSServiceImpl implements SMSService, InitializingBean {
         String statusCode = result.get("statusCode").toString();
 
         final SMSStatus status = new SMSStatus(
-                smsCheckCode.getBizTarget(), 
-                smsCheckCode.getPhone(), 
-                smsCheckCode.getCheckCode(), 
-                SMS_TXT, 
-                getSMSCodeResult(statusCode), 
-                statusCode, 
+                smsCheckCode.getBizTarget(),
+                smsCheckCode.getPhone(),
+                smsCheckCode.getCheckCode(),
+                SMS_TXT,
+                getSMSCodeResult(statusCode),
+                statusCode,
                 smsKey);
 
         logger.info("cloopen status is:" + status);
@@ -91,11 +92,11 @@ public class CloopenSMSServiceImpl implements SMSService, InitializingBean {
         String callSid = voiceVerify.get("callSid").toString();
 
         final SMSStatus status = new SMSStatus(
-                smsCheckCode.getBizTarget(), 
-                smsCheckCode.getPhone(), 
-                smsCheckCode.getCheckCode(), 
-                getSMSCodeResult(statusCode), 
-                statusCode, 
+                smsCheckCode.getBizTarget(),
+                smsCheckCode.getPhone(),
+                smsCheckCode.getCheckCode(),
+                getSMSCodeResult(statusCode),
+                statusCode,
                 smsKey,
                 SMS_VOICE, callSid);
 
@@ -105,6 +106,44 @@ public class CloopenSMSServiceImpl implements SMSService, InitializingBean {
                 try {
                     smsDao.saveCheckCode(status);
                     return smsDao.saveSMSStatus(status);
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                    transactionStatus.setRollbackOnly();
+                    return false;
+                }
+            }
+        });
+    }
+
+    /**
+     * 发送vip卡号
+     *
+     * @param smsSendVipCard
+     * @return
+     */
+    @Override
+    public boolean sendVipCard(SMSSendVipCard smsSendVipCard) {
+
+        HashMap<String, Object> result = restAPI.sendTemplateSMS(
+                smsSendVipCard.getPhone(), "124342", new String[]{smsSendVipCard.getCardNumber(),smsSendVipCard.getPassword()});
+        String statusCode = result.get("statusCode").toString();
+
+
+        final SMSSendVipCard sendVipCard = new SMSSendVipCard(smsSendVipCard.getPhone(),
+                smsSendVipCard.getCardNumber(),smsSendVipCard.getPassword(),
+                smsSendVipCard.getBizTarget(),
+                getSMSCodeResult(statusCode),statusCode);
+
+
+        return transactionTemplate.execute(new TransactionCallback<Boolean>() {
+            @Override
+            public Boolean doInTransaction(TransactionStatus transactionStatus) {
+                try {
+                    smsDao.saveVipCard(sendVipCard);
+                    if(!sendVipCard.getResultCode().equals("000000")){
+                        return false;
+                    }
+                    return smsDao.saveVipCard(sendVipCard);
                 } catch (Exception e) {
                     logger.error(e.getMessage());
                     transactionStatus.setRollbackOnly();
@@ -164,8 +203,13 @@ public class CloopenSMSServiceImpl implements SMSService, InitializingBean {
 
     }
 
+
     public static void main(String[] args) {
-        new CloopenSMSServiceImpl().sendSMS(new SMSCheckCode("18629242959", "2453", "zgk",null), false);
+//        restAPI = new CCPRestSDK();
+//        restAPI.init("app.cloopen.com", "8883");// 初始化服务器地址和端口，格式如下，服务器地址不需要写https://
+//        restAPI.setAccount("8a48b5515493a1b7015498c52ade066a", "c4e1c9418e5e4921bbd120598e0324dd");// 初始化主帐号名称和主帐号令牌
+//        restAPI.setAppId("aaf98f8954939ed501549e768a470e41");// 初始化应用ID
+        new CloopenSMSServiceImpl().sendVipCard(new SMSSendVipCard("18629242959","1231212313","123123", "zgk"));
     }
 
     public enum ErrorCode {

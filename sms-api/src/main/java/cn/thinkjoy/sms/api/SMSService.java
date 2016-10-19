@@ -1,6 +1,7 @@
 package cn.thinkjoy.sms.api;
 
 import cn.thinkjoy.sms.domain.SMSCheckCode;
+import cn.thinkjoy.sms.domain.SMSSendVipCard;
 
 /**
  * Created by gryang on 16/05/11.
@@ -25,4 +26,11 @@ public interface SMSService {
      * @return
      */
     boolean sendVoiceSMS(SMSCheckCode smsCheckCode, boolean isChange);
+
+
+    /**
+     * 发送vip卡号
+     * @return
+     */
+    boolean sendVipCard(SMSSendVipCard smsSendVipCard);
 }

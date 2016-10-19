@@ -47,7 +47,7 @@ allprojects {
     }
 
     sourceCompatibility = 1.7
-    version = '0.0.3-SNAPSHOT'
+    version = '0.0.4-SNAPSHOT'
 
     group 'cn.thinkjoy.sms'
 }

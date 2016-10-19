@@ -2,6 +2,7 @@ package cn.thinkjoy.sms.dao;
 
 import cn.thinkjoy.sms.domain.APPSMSChannel;
 import cn.thinkjoy.sms.domain.SMSSend;
+import cn.thinkjoy.sms.domain.SMSSendVipCard;
 import cn.thinkjoy.sms.domain.SMSStatus;
 import org.apache.ibatis.annotations.Param;
 
@@ -48,4 +49,11 @@ public interface SMSDao {
      * @return
      */
     List<APPSMSChannel> getAPPSMSChannel(@Param("app") String app);
+
+    /**
+     * 保存VIP卡号发送状态
+     * @param smsSendVipCard
+     * @return
+     */
+    boolean saveVipCard(SMSSendVipCard smsSendVipCard);
 }

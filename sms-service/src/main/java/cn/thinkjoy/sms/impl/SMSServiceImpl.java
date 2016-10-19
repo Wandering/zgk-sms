@@ -4,6 +4,7 @@ import cn.thinkjoy.sms.api.SMSService;
 import cn.thinkjoy.sms.dao.SMSDao;
 import cn.thinkjoy.sms.domain.SMSCheckCode;
 import cn.thinkjoy.sms.domain.SMSSend;
+import cn.thinkjoy.sms.domain.SMSSendVipCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -113,6 +114,17 @@ public class SMSServiceImpl implements SMSService, InitializingBean, DisposableB
             default:
                 return cloopenSMSService.sendVoiceSMS(smsCheckCode, isChange);
         }
+    }
+
+    /**
+     * 发送vip卡号
+     *
+     * @param smsSendVipCard
+     * @return
+     */
+    @Override
+    public boolean sendVipCard(SMSSendVipCard smsSendVipCard) {
+        return false;
     }
 
     private String getChannel(String target) {

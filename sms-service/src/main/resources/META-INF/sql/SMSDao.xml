@@ -54,6 +54,19 @@
         )
     </insert>
 
+    <!-- 保存发送VIP卡号和密码状态 -->
+    <insert id="saveVipCard" parameterType="string">
+        INSERT INTO sms_send_card
+        (sms_phone,
+        sms_card_number,
+        sms_password,
+        sms_sendResult,
+        sms_ResultCode,
+        sms_bizTarget)
+        VALUES
+        (#{phone},#{cardNumber},#{password},#{sendResult},#{resultCode},#{bizTarget});
+    </insert>
+
     <!-- 获取应用短信渠道关系 -->
     <select id="getAPPSMSChannel" parameterType="string" resultType="APPSMSChannel">
         SELECT

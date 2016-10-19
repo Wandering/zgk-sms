@@ -3,6 +3,7 @@ package cn.thinkjoy.sms.impl;
 import cn.thinkjoy.sms.api.SMSService;
 import cn.thinkjoy.sms.dao.SMSDao;
 import cn.thinkjoy.sms.domain.SMSCheckCode;
+import cn.thinkjoy.sms.domain.SMSSendVipCard;
 import cn.thinkjoy.sms.domain.SMSStatus;
 import cn.thinkjoy.sms.util.EncryptUtil;
 import com.alibaba.fastjson.JSON;
@@ -190,6 +191,17 @@ public class UcpaasSMSServiceImpl implements SMSService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    /**
+     * 发送vip卡号
+     *
+     * @param smsSendVipCard
+     * @return
+     */
+    @Override
+    public boolean sendVipCard(SMSSendVipCard smsSendVipCard) {
         return false;
     }
 
